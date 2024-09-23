@@ -1,0 +1,64 @@
+1) Установить VS Code
+2) Установить плагины:
+    - Live Server
+    - Auto Rename Tag
+    - W3C Web Validator
+    - Prettier
+    - Stilelint
+3) Установить GitBash:
+    1. Создать папку жля проектов в C:\Users\User 
+    2. Задать глобальное имя пользователя
+        git config --global user.name "User Name" 
+    3. Задать почту пользователя
+        git config --global user.email "username@yandex.ru"
+    4. Проверяем заданные настройки
+        git config --list
+4) Сгенерировать SSH-ключи:
+    1. Перейти в основной репозиторий
+    cd ~
+    2. Проверить наличие ключей и удалить их
+    -ls -la .ssh/
+    3. Сгенерировать ключ
+    ssh-keygen -t ed25519 -C "username@yandex.ru"
+    или
+    ssh-keygen -t rsa -b 4096 -C "username@yandex.ru"
+    4. Enter, Создаем пароль х2
+    5. Запускаем агента-ssh:
+    eval $(ssh-agent -s)
+    6. Привязываем ключ к агенту:
+    # для ed25519: ssh-add ~/.ssh/id_ed25519
+    # для rsa: ssh-add ~/.ssh/id_rsa
+    7. Копируем приватный ключ:
+    # для ed25519: clip < ~/.ssh/id_ed25519.pub
+    # для rsa: clip < ~/.ssh/id_rsa.pub
+    8. Перейти на GitHub, зайти в Settings
+    Выбрать пункт SSH and GPG keys
+    Нажать "New SSH key or Add SSH key"
+    Задать название и вставить ключ в "key"
+    Сохранить
+5) Связать локальный репозиторий:
+    1. Зайти в профиль на GitHub
+    2. Создать репозиторий
+    Задать имя, видимость, создать readme.md
+    3. Выбрать SSH ссылку
+    4. Инициализировать репозиторий
+    git init
+    5. Связать репозиторий
+    git remote add origin git@github.com:username/project.git 
+    6. На всякий случай переименовать ветку
+    git branch -M main 
+    7. Залогиниться в VS Code и запушить репозиторий
+6) Установить Node.js и npm:
+    1. Установить Node.js LTS
+    https://nodejs.org
+    2. Проверить в терминале версии node -v и npm -v
+    3. Создать тестовый проект для хранения настроек
+    4. Клонировать репозиторий с пресетами
+    git clone https://github.com/Cybiomez/my_presets.git
+    5. Забрать репозиторий себе (по желанию)
+    Создать свой репозиторий на GitHub
+    git remote set-url origin git@github.com:username/my_presets.git
+    6. Скопировать пресет из
+    my_presets_first_commit/settings_for_new_project
+    5. Инициализировать npm в тестовом проекте
+    npm init    
