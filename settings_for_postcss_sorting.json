@@ -285,7 +285,7 @@
             "touch-action",
             "scroll-behavior",
             "scroll-padding",
-            "...",
+            "..."
          ]
     },
     "emmet.triggerExpansionOnTab": true,
