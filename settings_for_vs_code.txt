@@ -1,10 +1,15 @@
 1) Установить VS Code
+    - Включить автосохранение
 2) Установить плагины:
     - Live Server
     - Auto Rename Tag
     - W3C Web Validator
     - Prettier
     - Stilelint
+    По желанию:
+    - Post CSS Sorting
+    - EditorConfig
+    - Scroll Viewport
 3) Установить GitBash:
     1. Создать папку жля проектов в C:\Users\User 
     2. Задать глобальное имя пользователя
@@ -61,4 +66,22 @@
     6. Скопировать пресет из
     my_presets_first_commit/settings_for_new_project
     5. Инициализировать npm в тестовом проекте
-    npm init    
+    npm init
+7) Настроить Post CSS Sorting:
+    1. Открыть Settings
+    2. Найти Post CSS Sorting Config и открыть settings.json
+    3. Вставить часть в "postcssSorting.config" код из файла
+    settings_for_postcss_sorting.json
+    4. При нажатии F1 в файле .css выбрать сортировку PostCSS
+8) Настроить EditorConfig:
+    1. В корене проекта создать файл
+    .editorconfig
+    2. Поместить в него следующие настройки:
+    root = true
+    [*]
+    indent_style = space
+    indent_size = 2
+    end_of_line = lf
+    charset = utf-8
+    trim_trailing_whitespace = true
+    insert_final_newline = true
