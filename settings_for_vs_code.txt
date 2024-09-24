@@ -20,107 +20,157 @@
         git config --list
 4) Сгенерировать SSH-ключи:
     1. Перейти в основной репозиторий
-    cd ~
+        cd ~
     2. Проверить наличие ключей и удалить их
-    -ls -la .ssh/
+        -ls -la .ssh/
     3. Сгенерировать ключ
-    ssh-keygen -t ed25519 -C "username@yandex.ru"
-    или
-    ssh-keygen -t rsa -b 4096 -C "username@yandex.ru"
+        ssh-keygen -t ed25519 -C "username@yandex.ru"
+    ИЛИ
+        ssh-keygen -t rsa -b 4096 -C "username@yandex.ru"
     4. Enter, Создаем пароль х2
     5. Запустить агента-ssh:
-    eval $(ssh-agent -s)
+        eval $(ssh-agent -s)
     6. Привязать ключ к агенту (по желанию):
-    # для ed25519: ssh-add ~/.ssh/id_ed25519
-    # для rsa: ssh-add ~/.ssh/id_rsa
+        # для ed25519: ssh-add ~/.ssh/id_ed25519
+        # для rsa: ssh-add ~/.ssh/id_rsa
     7. Скопировать приватный ключ:
-    # для ed25519: clip < ~/.ssh/id_ed25519.pub
-    # для rsa: clip < ~/.ssh/id_rsa.pub
+        # для ed25519: clip < ~/.ssh/id_ed25519.pub
+        # для rsa: clip < ~/.ssh/id_rsa.pub
     8. Перейти на GitHub, зайти в Settings
-    Выбрать пункт SSH and GPG keys
-    Нажать "New SSH key or Add SSH key"
-    Задать название и вставить ключ в "key"
-    Сохранить
+        Выбрать пункт SSH and GPG keys
+        Нажать "New SSH key or Add SSH key"
+        Задать название и вставить ключ в "key"
+        Сохранить
 5) Связать локальный репозиторий:
     1. Зайти в профиль на GitHub
     2. Создать репозиторий
-    Задать имя, видимость, создать readme.md
+        Задать имя, видимость, создать readme.md
     3. Выбрать SSH ссылку
     4. Инициализировать репозиторий
-    git init
+        git init
     5. Связать репозиторий
-    git remote add origin git@github.com:username/project.git 
+        git remote add origin git@github.com:username/project.git 
     6. На всякий случай переименовать ветку
-    git branch -M main 
+        git branch -M main 
     7. Залогиниться в VS Code и запушить репозиторий
 6) Установить Node.js и npm:
     1. Установить Node.js LTS
-    https://nodejs.org
+        https://nodejs.org
     2. Проверить в терминале версии node -v и npm -v
     3. Создать тестовый проект для хранения настроек
     4. Инициализировать npm в тестовом проекте
-    npm init
+        npm init
     5. Клонировать репозиторий с пресетами:
-    git clone https://github.com/Cybiomez/my_presets.git
-    или
-    Установить необходимые зависимости:
-    npm i prettier --save-dev
-    npm i stylelint --save-dev
-    npm i normalize.css
+        git clone https://github.com/Cybiomez/my_presets.git
+    ИЛИ
+        Установить необходимые зависимости:
+            npm i prettier --save-dev
+            npm i stylelint --save-dev
+            npm i normalize.css
     6. Забрать репозиторий себе (по желанию)
-    Создать свой репозиторий на GitHub
-    git remote set-url origin git@github.com:username/my_presets.git
+        Создать свой репозиторий на GitHub
+            git remote set-url origin git@github.com:username/my_presets.git
     7. Скопировать пресет из
-    my_presets_first_commit/settings_for_new_project    
+        my_presets_first_commit/settings_for_new_project    
 7) Настроить Post CSS Sorting:
     1. Открыть Settings
     2. Найти Post CSS Sorting Config и открыть settings.json
     3. Вставить часть в "postcssSorting.config" код из файла
-    settings_for_postcss_sorting.json
+        settings_for_postcss_sorting.json
     4. При нажатии F1 в файле .css выбрать сортировку PostCSS
 8) Настроить EditorConfig:
     1. В корене проекта создать файл
-    .editorconfig
+        .editorconfig
     2. Поместить в него следующие настройки:
-    root = true
-    [*]
-    indent_style = space
-    indent_size = 2
-    end_of_line = lf
-    charset = utf-8
-    trim_trailing_whitespace = true
-    insert_final_newline = true
+        root = true
+        [*]
+        indent_style = space
+        indent_size = 2
+        end_of_line = lf
+        charset = utf-8
+        trim_trailing_whitespace = true
+        insert_final_newline = true
 9) Переход на автоматизацию:
     1. Создать папрку src в папке проекта
-    Это будет папка с исходниками
+        Это будет папка с исходниками
     2. Перевести Prettier и Stylelint в devDependencies
-    npm i prettier --save-dev
-    npm i stylelint --save-dev
-    или
-    "devDependencies": {
-        "prettier": "^3.3.3",
-        "stylelint": "^16.9.0"
-    },
+        npm i prettier --save-dev
+        npm i stylelint --save-dev
+    ИЛИ
+        "devDependencies": {
+            "prettier": "^3.3.3",
+            "stylelint": "^16.9.0"
+        },
     3. В пути скриптов в package.json добавить ./src
     4. Установить gulp глобально
-    npm install -g gulp
+        npm install -g gulp
     5. Установить gulp в проекткак devDependencies
-    npm install gulp --save-dev 
+        npm install gulp --save-dev 
     6. Создать в корне файл gulpfile.js
-    Внести в него строку: const gulp = require('gulp');
+        Внести в него строку: const gulp = require('gulp');
     7. Добавить плагины
-    Установить:
+        Установить:
             Сервер просмотра в реальном времени
-        npm i browser-sync --save-dev
+                npm i browser-sync --save-dev
             Плагин синхронизации удаления
-        npm i del@6.0.0 --save-dev
+                npm i del@6.0.0 --save-dev
             Плагин склеивания файлов CSS
-        npm i gulp-concat-css --save-dev
+                npm i gulp-concat-css --save-dev
             Производит сборку вопреки ошибкам
-        npm i gulp-plumber --save-dev
-    Добавить строки в gulpfile.js:
-        const concat = require('gulp-concat-css');
-        const plumber = require('gulp-plumber');
-        const del = require('del');
-        const browserSync = require('browser-sync').create();
-    8. 
+                npm i gulp-plumber --save-dev
+        Добавить строки в gulpfile.js:
+            const concat = require('gulp-concat-css');
+            const plumber = require('gulp-plumber');
+            const del = require('del');
+            const browserSync = require('browser-sync').create();
+        ИЛИ
+            Скопировать gulpfile.js
+10) Настройка PostCSS под gulp:
+    1. Установить зависимость
+        npm install --save-dev postcss gulp-postcss
+    2. Объявить в gulpfile.js переменную
+        const postcss= require('gulp-postcss');
+    3. Встроить ссылку на хранилище плагинов в css();
+        function css() { const plugins = []...
+    4. Встроить пайп в css(); между concat и /dist
+        .pipe(concat('bundle.css'))
+        .pipe(postcss(plugins))
+        .pipe(gulp.dest('dist/'))
+    5. Установить плагины 
+        + Autoprefixer - Самостоятельно расставляет 
+    вендорные префиксы по браузер-листу
+        npm i autoprefixer --save-dev 
+        + postcss-combine-media-query - "Склеивает" медиазапросы
+        npm i postcss-combine-media-query --save-dev 
+        + cssnano - Убирает из файла все лишние символы
+    и преобразует весь код в одну строку
+        npm i cssnano --save-dev
+    6. Подключить в gulpfile.js
+        const autoprefixer = require('autoprefixer'); 
+        const mediaquery = require('postcss-combine-media-query');
+        const cssnano = require('cssnano');
+    7. Добавить в хранилище плагинов
+        const plugins = [autoprefixer(), mediaquery(), cssnano()];
+11) Установить плагин html-minifier
+    1. Плагин сжимает и оптимизирует html
+        npm i html-minifier --save-dev
+    2. Подключить в gulpfile.js
+        const htmlMinify = require('html-minifier'); 
+    3. Добавить в html(); настройку опций
+        const options = {
+            removeComments: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            sortClassName: true,
+            useShortDoctype: true,
+            collapseWhitespace: true,
+            minifyCSS: true,
+            keepClosingSlash: true
+            return gulp.src('src/**/*.html')
+        .pipe(plumber())
+        .on('data', function(file) {
+            const buferFile = Buffer.from(htmlMinify.minify(file.contents.toString(), options))
+            return file.contents = buferFile
+        })
+
