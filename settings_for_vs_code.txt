@@ -11,7 +11,7 @@
     - EditorConfig
     - Scroll Viewport
 3) Установить GitBash:
-    1. Создать папку жля проектов в C:\Users\User 
+    1. Создать папку для проектов в C:\Users\User 
     2. Задать глобальное имя пользователя
         git config --global user.name "User Name" 
     3. Задать почту пользователя
@@ -28,12 +28,12 @@
     или
     ssh-keygen -t rsa -b 4096 -C "username@yandex.ru"
     4. Enter, Создаем пароль х2
-    5. Запускаем агента-ssh:
+    5. Запустить агента-ssh:
     eval $(ssh-agent -s)
-    6. Привязываем ключ к агенту:
+    6. Привязать ключ к агенту (по желанию):
     # для ed25519: ssh-add ~/.ssh/id_ed25519
     # для rsa: ssh-add ~/.ssh/id_rsa
-    7. Копируем приватный ключ:
+    7. Скопировать приватный ключ:
     # для ed25519: clip < ~/.ssh/id_ed25519.pub
     # для rsa: clip < ~/.ssh/id_rsa.pub
     8. Перейти на GitHub, зайти в Settings
@@ -58,15 +58,20 @@
     https://nodejs.org
     2. Проверить в терминале версии node -v и npm -v
     3. Создать тестовый проект для хранения настроек
-    4. Клонировать репозиторий с пресетами
+    4. Инициализировать npm в тестовом проекте
+    npm init
+    5. Клонировать репозиторий с пресетами:
     git clone https://github.com/Cybiomez/my_presets.git
-    5. Забрать репозиторий себе (по желанию)
+    или
+    Установить необходимые зависимости:
+    npm i prettier --save-dev
+    npm i stylelint --save-dev
+    npm i normalize.css
+    6. Забрать репозиторий себе (по желанию)
     Создать свой репозиторий на GitHub
     git remote set-url origin git@github.com:username/my_presets.git
-    6. Скопировать пресет из
-    my_presets_first_commit/settings_for_new_project
-    5. Инициализировать npm в тестовом проекте
-    npm init
+    7. Скопировать пресет из
+    my_presets_first_commit/settings_for_new_project    
 7) Настроить Post CSS Sorting:
     1. Открыть Settings
     2. Найти Post CSS Sorting Config и открыть settings.json
@@ -85,3 +90,37 @@
     charset = utf-8
     trim_trailing_whitespace = true
     insert_final_newline = true
+9) Переход на автоматизацию:
+    1. Создать папрку src в папке проекта
+    Это будет папка с исходниками
+    2. Перевести Prettier и Stylelint в devDependencies
+    npm i prettier --save-dev
+    npm i stylelint --save-dev
+    или
+    "devDependencies": {
+        "prettier": "^3.3.3",
+        "stylelint": "^16.9.0"
+    },
+    3. В пути скриптов в package.json добавить ./src
+    4. Установить gulp глобально
+    npm install -g gulp
+    5. Установить gulp в проекткак devDependencies
+    npm install gulp --save-dev 
+    6. Создать в корне файл gulpfile.js
+    Внести в него строку: const gulp = require('gulp');
+    7. Добавить плагины
+    Установить:
+            Сервер просмотра в реальном времени
+        npm i browser-sync --save-dev
+            Плагин синхронизации удаления
+        npm i del@6.0.0 --save-dev
+            Плагин склеивания файлов CSS
+        npm i gulp-concat-css --save-dev
+            Производит сборку вопреки ошибкам
+        npm i gulp-plumber --save-dev
+    Добавить строки в gulpfile.js:
+        const concat = require('gulp-concat-css');
+        const plumber = require('gulp-plumber');
+        const del = require('del');
+        const browserSync = require('browser-sync').create();
+    8. 

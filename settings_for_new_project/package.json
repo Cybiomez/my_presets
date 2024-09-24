@@ -5,18 +5,25 @@
   "main": "index.js",
   "scripts": {
     "test": "echo 'Привет!'",
-    "check": "prettier --check './**/*.{html,css,js}'",
-    "format": "prettier --write './**/*.{html,css,js}'",
-    "lint": "stylelint '**/*.css'",
-    "lintfix": "stylelint '**/*.css' --fix",
+    "check": "prettier --check './src/**/*.{html,css,js}'",
+    "format": "prettier --write './src/**/*.{html,css,js}'",
+    "lint": "stylelint './src/**/*.css'",
+    "lintfix": "stylelint './src/**/*.css' --fix",
     "checkAll": "npm run check && npm run lint",
     "fixAll": "npm run format && npm run lintfix"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "normalize.css": "^8.0.1",
+  "devDependencies": {
+    "browser-sync": "^3.0.3",
+    "del": "^6.0.0",
+    "gulp": "^5.0.0",
+    "gulp-concat-css": "^3.1.0",
+    "gulp-plumber": "^1.2.1",
     "prettier": "^3.3.3",
     "stylelint": "^16.9.0"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
   }
 }
