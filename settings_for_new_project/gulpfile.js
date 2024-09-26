@@ -4,10 +4,12 @@ const plumber = require('gulp-plumber');
 const del = require('del');
 const browserSync = require('browser-sync').create();
 const postcss= require('gulp-postcss');
-const autoprefixer = require('autoprefixer'); 
-const mediaquery = require('postcss-combine-media-query'); 
+const autoprefixer = require('autoprefixer');
+const mediaquery = require('postcss-combine-media-query');
 const cssnano = require('cssnano');
-const htmlMinify = require('html-minifier'); 
+const htmlMinify = require('html-minifier');
+const gulpPug = require('gulp-pug');
+const sass = require('gulp-sass')(require('sass'));
 
 function serve() {
   browserSync.init({
@@ -15,6 +17,23 @@ function serve() {
       baseDir: './dist'
     }
   });
+}
+
+function scss() {
+  const plugins = [autoprefixer(), mediaquery(), cssnano()];
+  return gulp.src('src/**/*.scss')
+        .pipe(sass())
+        .pipe(concat('bundle.css'))
+        .pipe(postcss(plugins))
+        .pipe(gulp.dest('dist/'))
+        .pipe(browserSync.reload({stream: true}));
+}
+
+function pug() {
+  return gulp.src('src/pages/**/*.pug')
+        .pipe(gulpPug(/*{pretty: true}*/))
+        .pipe(gulp.dest('dist/'))
+        .pipe(browserSync.reload({stream: true}));
 }
 
 function html() {
@@ -72,6 +91,8 @@ function clean() {
 }
 
 function watchFiles() {
+  gulp.watch(['src/**/*.scss'], scss);
+  gulp.watch(['src/pages/**/*.pug'], pug)
   gulp.watch(['src/**/*.html'], html);
   gulp.watch(['src/blocks/**/*.css'], css);
   gulp.watch(['src/images/**/*.{jpg,png,svg,gif,ico,webp,avif}'], images);
@@ -79,9 +100,11 @@ function watchFiles() {
   gulp.watch(['src/fonts/**/*.{ttf, otf, svg, woff, woff2, eot}'], fonts);
 }
 
-const build = gulp.series(clean, gulp.parallel(html, css, images, movies, fonts));
+const build = gulp.series(clean, gulp.parallel(/*pug,*/ html, /*scss,*/ css, images, movies, fonts));
 const watchapp = gulp.parallel(build, watchFiles, serve);
 
+exports.scss = scss;
+exports.pug = pug;
 exports.html = html;
 exports.css = css;
 exports.images = images;

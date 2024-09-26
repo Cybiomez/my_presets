@@ -71,7 +71,7 @@
         Создать свой репозиторий на GitHub
             git remote set-url origin git@github.com:username/my_presets.git
     7. Скопировать пресет из
-        my_presets_first_commit/settings_for_new_project    
+        my_presets_first_commit/settings_for_new_project 
 7) Настроить Post CSS Sorting:
     1. Открыть Settings
     2. Найти Post CSS Sorting Config и открыть settings.json
@@ -125,7 +125,27 @@
             const browserSync = require('browser-sync').create();
         ИЛИ
             Скопировать gulpfile.js
-10) Настройка PostCSS под gulp:
+10) Установить атомарную библиотеку Atomizer
+    1. npm i atomizer
+        Библиотека будет складывать стили в /dist/output.css
+    2. Установить плагин Atomic CSS Snippets
+    3. Создать в package.json скрипт "atomize":
+        atomizer -o ./dist/output.css --watch index.html
+11) Установить атомарную библиотеку Tailwind
+    1. npm i -D tailwindcss
+    2. Инициализировать библиотеку
+        npx tailwindcss init 
+        Это создатст файл библиотеки tailwind.config.js
+    3. В созданном файле заменить ключ content
+        ["./src/**/*.{html,js}"]
+    4. Создать папку src, а в ней файл input.css
+        В него добавить дерективы
+            @tailwind base;
+            @tailwind components;
+            @tailwind utilities;
+    5. Создать в package.json скрипт "tailwind"
+        npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch 
+12) Настройка PostCSS под gulp:
     1. Установить зависимость
         npm install --save-dev postcss gulp-postcss
     2. Объявить в gulpfile.js переменную
@@ -151,7 +171,7 @@
         const cssnano = require('cssnano');
     7. Добавить в хранилище плагинов
         const plugins = [autoprefixer(), mediaquery(), cssnano()];
-11) Установить плагин html-minifier
+13) Установить плагин html-minifier
     1. Плагин сжимает и оптимизирует html
         npm i html-minifier --save-dev
     2. Подключить в gulpfile.js
@@ -173,4 +193,65 @@
             const buferFile = Buffer.from(htmlMinify.minify(file.contents.toString(), options))
             return file.contents = buferFile
         })
-
+14) Установить препроцессор html Pug
+    1. npm i gulp-pug --save-dev 
+    2. Создать папку pages в папке src
+    3. Подключить в gulpfile.json
+        const gulpPug = require('gulp-pug');
+    4. Создать описание задачи
+        function pug() {
+            return gulp.src('src/pages/**/*.pug')
+            .pipe(gulpPug())
+            .pipe(gulp.dest('dist/'))
+            .pipe(browserSync.reload({stream: true}));
+        } 
+        exports.pug = pug;
+    5. Создать в папке page файл index.pug
+        doctype html
+        html(lang="ru")
+            head
+                title Главная страница сайта
+            body
+                h1 Привет!
+    6. Отключить минифакацию при необходимости
+        .pipe(gulpPug({pretty: true}))
+    7. Заменить отслеживание файла .html на .pug сервером
+        function watchFiles() {
+            gulp.watch(['src/pages/**/*.pug'], pug)...
+        ...
+        ...const build = gulp.series(clean, gulp.parallel(/*pug,*/ html, css, images, movies, fonts));
+15) Установить препроцессор cdd SASS
+    1. npm install sass gulp-sass --save-dev 
+    2. Подключить в gulpfile.json
+        const sass = require('gulp-sass')(require('sass'));
+    3. Создать описание задачи
+        function scss() {
+            return gulp.src('src/**/*.scss')
+                .pipe(sass())
+                .pipe(gulp.dest('dist/'))
+                .pipe(browserSync.reload({stream: true}));
+        } 
+        exports.scss = scss; 
+    4. Заменить функцию сборки css на scss
+        function watchFiles() {
+            gulp.watch(['src/**/*.scss'], scss);...
+        ...
+        ...const build = gulp.series(clean, gulp.parallel(/*pug,*/ html, /*scss,*/ css, images, movies, fonts));
+    5.  Перенести пайпы и плагины постпроцессинга в функцию
+        function scss() {
+            const plugins = [autoprefixer(), mediaquery(), cssnano()];
+            return gulp.src('src/**/*.scss')
+                .pipe(sass())
+                .pipe(concat('bundle.css'))
+                .pipe(postcss(plugins))
+                .pipe(gulp.dest('dist/'))
+                .pipe(browserSync.reload({stream: true}));
+        }
+    6. Донасроить скрипты линтеров и форматеров 
+    7. Добавить зависимости для линтеров и форматеров
+        npm add --save-dev prettier @prettier/plugin-pug
+        npm install --save-dev stylelint-config-standard-scss
+    8. Заменить stylelint.config.js
+        module.exports = {"extends": "stylelint-config-standard-scss"}  
+16)
+        
